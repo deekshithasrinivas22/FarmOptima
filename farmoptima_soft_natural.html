@@ -1,0 +1,423 @@
+<style>
+  @import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,600;1,400&family=Nunito:wght@300;400;600&display=swap');
+
+  * {
+    box-sizing: border-box;
+    margin: 0;
+    padding: 0;
+  }
+
+  .root {
+    background: #f7f3ec;
+    font-family: 'Nunito', sans-serif;
+    color: #3b3228;
+    min-height: 100vh;
+  }
+
+  .nav {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 1.1rem 2.5rem;
+    background: #f2ede4;
+    border-bottom: 1px solid #e0d8cc;
+  }
+
+  .nav-brand {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+  }
+
+  .nav-leaf {
+    width: 22px;
+    height: 22px;
+  }
+
+  .nav-name {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #3a5c38;
+    letter-spacing: 0.01em;
+  }
+
+  .nav-links {
+    display: flex;
+    gap: 2rem;
+  }
+
+  .nav-link {
+    font-size: 13px;
+    color: #7a6e60;
+    font-weight: 400;
+    text-decoration: none;
+    letter-spacing: 0.03em;
+  }
+
+  .hero {
+    padding: 4rem 2.5rem 3rem;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 3rem;
+    align-items: center;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .hero-left {}
+
+  .hero-tag {
+    display: inline-block;
+    background: #e8f0e4;
+    color: #3a5c38;
+    font-size: 11px;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    padding: 5px 14px;
+    border-radius: 100px;
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+  }
+
+  .hero-title {
+    font-family: 'Lora', serif;
+    font-size: 46px;
+    font-weight: 400;
+    line-height: 1.15;
+    color: #2c3e28;
+    margin-bottom: 1rem;
+  }
+
+  .hero-title em {
+    font-style: italic;
+    color: #5a8c4e;
+  }
+
+  .hero-body {
+    font-size: 14px;
+    color: #7a6e60;
+    line-height: 1.9;
+    font-weight: 300;
+    max-width: 400px;
+  }
+
+  .hero-actions {
+    display: flex;
+    gap: 12px;
+    margin-top: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .btn-primary {
+    background: #4a7c42;
+    color: #f7f3ec;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 11px 24px;
+    border-radius: 100px;
+    border: none;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+  }
+
+  .btn-secondary {
+    background: transparent;
+    color: #4a7c42;
+    font-family: 'Nunito', sans-serif;
+    font-size: 13px;
+    font-weight: 600;
+    padding: 11px 24px;
+    border-radius: 100px;
+    border: 1.5px solid #b8ceaf;
+    cursor: pointer;
+    letter-spacing: 0.04em;
+  }
+
+  .hero-right {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 12px;
+  }
+
+  .stat-tile {
+    background: #fff;
+    border-radius: 16px;
+    padding: 1.25rem;
+    border: 1px solid #e8e0d4;
+  }
+
+  .stat-tile.accent {
+    background: #3a5c38;
+  }
+
+  .stat-num {
+    font-family: 'Lora', serif;
+    font-size: 30px;
+    font-weight: 600;
+    color: #3a5c38;
+    line-height: 1;
+  }
+
+  .stat-tile.accent .stat-num {
+    color: #c8dcb8;
+  }
+
+  .stat-lbl {
+    font-size: 11px;
+    color: #a89e8e;
+    text-transform: uppercase;
+    letter-spacing: 0.12em;
+    margin-top: 6px;
+    font-weight: 600;
+  }
+
+  .stat-tile.accent .stat-lbl {
+    color: #7aa87a;
+  }
+
+  .divider {
+    height: 1px;
+    background: #e0d8cc;
+    margin: 0 2.5rem;
+  }
+
+  .features {
+    padding: 3rem 2.5rem;
+    max-width: 1100px;
+    margin: 0 auto;
+  }
+
+  .features-label {
+    font-size: 11px;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: #a89e8e;
+    font-weight: 600;
+    margin-bottom: 2rem;
+  }
+
+  .feature-grid {
+    display: grid;
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 16px;
+  }
+
+  .feat {
+    background: #fff;
+    border-radius: 20px;
+    padding: 1.75rem;
+    border: 1px solid #e8e0d4;
+    transition: border-color 0.2s;
+  }
+
+  .feat:hover {
+    border-color: #b8ceaf;
+  }
+
+  .feat-icon-wrap {
+    width: 44px;
+    height: 44px;
+    border-radius: 12px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    margin-bottom: 1.25rem;
+  }
+
+  .feat-icon-wrap.green {
+    background: #e8f0e4;
+  }
+
+  .feat-icon-wrap.amber {
+    background: #faeeda;
+  }
+
+  .feat-icon-wrap.teal {
+    background: #e1f5ee;
+  }
+
+  .feat-num {
+    font-size: 10px;
+    letter-spacing: 0.18em;
+    color: #c8bfb2;
+    text-transform: uppercase;
+    font-weight: 600;
+    margin-bottom: 0.6rem;
+  }
+
+  .feat-title {
+    font-family: 'Lora', serif;
+    font-size: 17px;
+    font-weight: 600;
+    color: #2c3e28;
+    margin-bottom: 0.6rem;
+    line-height: 1.3;
+  }
+
+  .feat-desc {
+    font-size: 12.5px;
+    color: #8c8070;
+    line-height: 1.85;
+    font-weight: 300;
+  }
+
+  .feat-chip {
+    display: inline-block;
+    margin-top: 1.25rem;
+    font-size: 10px;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 4px 12px;
+    border-radius: 100px;
+  }
+
+  .chip-green {
+    background: #e8f0e4;
+    color: #3a5c38;
+  }
+
+  .chip-amber {
+    background: #faeeda;
+    color: #854f0b;
+  }
+
+  .chip-teal {
+    background: #e1f5ee;
+    color: #0f6e56;
+  }
+
+  .footer {
+    background: #f2ede4;
+    border-top: 1px solid #e0d8cc;
+    padding: 1.5rem 2.5rem;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-wrap: wrap;
+    gap: 1rem;
+  }
+
+  .footer-text {
+    font-size: 12px;
+    color: #a89e8e;
+    font-weight: 300;
+  }
+
+  .footer-badge {
+    background: #e8f0e4;
+    color: #3a5c38;
+    font-size: 10px;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    font-weight: 600;
+    padding: 5px 14px;
+    border-radius: 100px;
+  }
+</style>
+
+<div class="root">
+  <nav class="nav">
+    <div class="nav-brand">
+      <svg class="nav-leaf" viewBox="0 0 22 22" fill="none">
+        <path d="M11 2 C11 2 3 7 3 13 C3 17.4 6.6 20 11 20 C15.4 20 19 17.4 19 13 C19 7 11 2 11 2Z" fill="#4a7c42"
+          opacity="0.85" />
+        <path d="M11 7 L11 19" stroke="#f7f3ec" stroke-width="1.2" stroke-linecap="round" />
+        <path d="M8 12 L11 9 L14 12" stroke="#f7f3ec" stroke-width="1" stroke-linecap="round" />
+      </svg>
+      <span class="nav-name">FarmOptima</span>
+    </div>
+    <div class="nav-links">
+      <span class="nav-link">Crops</span>
+      <span class="nav-link">Irrigation</span>
+      <span class="nav-link">Insights</span>
+    </div>
+  </nav>
+
+  <section class="hero">
+    <div class="hero-left">
+      <span class="hero-tag">Smart Agriculture System</span>
+      <h1 class="hero-title">Your farm,<br><em>intelligently</em><br>guided</h1>
+      <p class="hero-body">AI recommendations for every decision — from which crop to plant, to exactly when to water.
+        Built for farmers, explained in plain language.</p>
+      <div class="hero-actions">
+        <button class="btn-primary">Get started</button>
+        <button class="btn-secondary">See how it works</button>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="stat-tile accent">
+        <div class="stat-num">94%</div>
+        <div class="stat-lbl">Crop accuracy</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-num" style="color:#854f0b;">30%</div>
+        <div class="stat-lbl">Water saved</div>
+      </div>
+      <div class="stat-tile">
+        <div class="stat-num">12</div>
+        <div class="stat-lbl">Input features</div>
+      </div>
+      <div class="stat-tile" style="background:#faeeda;">
+        <div class="stat-num" style="color:#854f0b;">3</div>
+        <div class="stat-lbl" style="color:#c8906a;">AI modules</div>
+      </div>
+    </div>
+  </section>
+
+  <div class="divider"></div>
+
+  <section class="features">
+    <div class="features-label">What it does</div>
+    <div class="feature-grid">
+      <div class="feat">
+        <div class="feat-icon-wrap green">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <path d="M11 2C11 2 5 7 5 12C5 15.3 7.7 17 11 17C14.3 17 17 15.3 17 12C17 7 11 2 11 2Z" stroke="#4a7c42"
+              stroke-width="1.2" fill="none" />
+            <path d="M11 7L11 16" stroke="#4a7c42" stroke-width="1" stroke-dasharray="1.5 1.5" />
+          </svg>
+        </div>
+        <div class="feat-num">01</div>
+        <div class="feat-title">Crop recommendation</div>
+        <div class="feat-desc">Analyses soil composition, rainfall, and temperature to suggest the best crop for your
+          land this season.</div>
+        <span class="feat-chip chip-green">Random forest</span>
+      </div>
+      <div class="feat">
+        <div class="feat-icon-wrap amber">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <circle cx="11" cy="7" r="3" stroke="#ba7517" stroke-width="1.2" />
+            <path d="M11 10L11 18" stroke="#ba7517" stroke-width="1.2" />
+            <path d="M7 15Q9 18 11 18Q13 18 15 15" stroke="#ba7517" stroke-width="1" fill="none" />
+          </svg>
+        </div>
+        <div class="feat-num">02</div>
+        <div class="feat-title">Smart irrigation</div>
+        <div class="feat-desc">Fuses soil moisture readings with live weather to decide when and how much water your
+          crops actually need.</div>
+        <span class="feat-chip chip-amber">Sensor + weather</span>
+      </div>
+      <div class="feat">
+        <div class="feat-icon-wrap teal">
+          <svg width="22" height="22" viewBox="0 0 22 22" fill="none">
+            <rect x="3" y="5" width="16" height="12" rx="2" stroke="#1d9e75" stroke-width="1.2" />
+            <path d="M6 13L9 10L12 12L17 7" stroke="#1d9e75" stroke-width="1.2" stroke-linecap="round" />
+          </svg>
+        </div>
+        <div class="feat-num">03</div>
+        <div class="feat-title">Explainable AI</div>
+        <div class="feat-desc">Every recommendation comes with a plain-language breakdown of the factors that drove the
+          decision.</div>
+        <span class="feat-chip chip-teal">SHAP values</span>
+      </div>
+    </div>
+  </section>
+
+  <div class="footer">
+    <span class="footer-text">Helping farmers make smarter decisions — one data point at a time.</span>
+    <span class="footer-badge">AI-powered</span>
+  </div>
+</div>
