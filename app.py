@@ -1,6 +1,5 @@
 import streamlit as st
 import streamlit.components.v1 as components
-from sklearn.preprocessing import LabelEncoder 
 from nav import display_navbar
 
 st.set_page_config(
