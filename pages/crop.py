@@ -6,25 +6,14 @@ from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from nav import display_navbar
 
-# ---------------------------
-# PAGE CONFIG
-# ---------------------------
 st.set_page_config(
     page_title="FarmOptima - Smart Crop Recommendation",
     layout="wide",
     initial_sidebar_state="collapsed"
 )
 
-# ---------------------------
-# NAVBAR
-# ---------------------------
 display_navbar()
 
-
-
-# ---------------------------
-# CUSTOM THEME CSS
-# ---------------------------
 st.markdown("""
 <style>
 @import url('https://fonts.googleapis.com/css2?family=Great+Vibes&family=Lora:wght@400;600&family=Nunito:wght@300;400;600&display=swap');
@@ -293,9 +282,7 @@ div.stButton > button[kind="primary"]:hover {
 </style>
 """, unsafe_allow_html=True)
 
-# ---------------------------
-# HEADER
-# ---------------------------
+# header
 st.markdown("""
 <div style='margin-bottom:2rem;'>
     <div style='font-size:11px; letter-spacing:0.22em; text-transform:uppercase; color:#a89b89; font-weight:600;'>
@@ -310,9 +297,7 @@ st.markdown("""
 </div>
 """, unsafe_allow_html=True)
 
-# ---------------------------
-# WEATHER FUNCTION
-# ---------------------------
+#weather
 def weather(state, season):
     if state in ["Kerala", "West Bengal", "Odisha"]:
         temp, rain = 28, 150
@@ -331,9 +316,7 @@ def weather(state, season):
 
     return temp, max(rain, 0)
 
-# ---------------------------
-# LOAD DATA
-# ---------------------------
+# data
 @st.cache_resource
 def load_data():
     crop = pd.read_csv("dataset/crop.csv").dropna()
@@ -356,9 +339,7 @@ def load_data():
 
 model, le_state, le_season, le_crop = load_data()
 
-# ---------------------------
-# FARM DETAILS
-# ---------------------------
+#farm
 st.markdown("<div class='section-title'>Farm Details</div>", unsafe_allow_html=True)
 
 col1, col2, col3, col4 = st.columns(4)
@@ -375,9 +356,7 @@ with col3:
 with col4:
     area = st.slider("Area (acres)", 1, 1000, 100)
 
-# ---------------------------
-# WEATHER DISPLAY
-# ---------------------------
+# weather display
 temp, rain = weather(state, season)
 
 w1, w2 = st.columns(2)
@@ -398,9 +377,7 @@ with w2:
     </div>
     """, unsafe_allow_html=True)
 
-# ---------------------------
-# SOIL DATA
-# ---------------------------
+# soil
 st.markdown("<div class='section-title'>Soil Data</div>", unsafe_allow_html=True)
 
 soil_mode = st.radio(
@@ -460,9 +437,7 @@ with soil3:
     </div>
     """, unsafe_allow_html=True)
 
-# ---------------------------
-# BUTTON
-# ---------------------------
+#button
 st.markdown("<div style='margin-top: 25px;'></div>", unsafe_allow_html=True)
 
 if st.button("Get Recommendation", type="primary"):

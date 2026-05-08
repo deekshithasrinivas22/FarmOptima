@@ -1,16 +1,16 @@
 import pandas as pd
 
-# ---------------- LOAD DATA ----------------
+#  LOAD DATA
 crop_data = pd.read_csv("dataset/crop.csv")
 
-# ---------------- CLEAN DATA ----------------
+#CLEAN DATA
 crop_data = crop_data.dropna()
 
-# ---------------- FEATURE SELECTION ----------------
+#FEATURE SELECTION
 X = crop_data[['State_Name', 'Season', 'Crop_Year', 'Area']]
 y = crop_data['Crop']
 
-# ---------------- ENCODING ----------------
+#ENCODING
 from sklearn.preprocessing import LabelEncoder
 
 le_state = LabelEncoder()
@@ -23,7 +23,7 @@ y = le_crop.fit_transform(y)
 
 print("Encoding done!")
 
-# ---------------- TRAIN TEST SPLIT ----------------
+#TRAIN TEST SPLIT
 from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test = train_test_split(
@@ -32,7 +32,7 @@ X_train, X_test, y_train, y_test = train_test_split(
 
 print("Split done!")
 
-# ---------------- MODEL TRAINING ----------------
+#MODEL TRAINING
 from sklearn.ensemble import RandomForestClassifier
 
 # Reduced trees → faster training
@@ -43,20 +43,18 @@ model.fit(X_train, y_train)
 
 print("Model trained!")
 
-# ---------------- PREDICTION ----------------
+#PREDICTION
 y_pred = model.predict(X_test)
 
-# ---------------- ACCURACY ----------------
+#ACCURACY
 from sklearn.metrics import accuracy_score
 
 accuracy = accuracy_score(y_test, y_pred)
 
 print("Accuracy:", accuracy)
 
-# ---------------- IRRIGATION MODEL ----------------
+#IRRIGATION MODEL
 
-# Create irrigation label (simple logic based on Area)
-# If area is small → irrigation needed (1), else not needed (0)
 crop_data['Irrigation'] = crop_data['Area'].apply(lambda x: 1 if x < 50 else 0)
 
 # Features for irrigation
