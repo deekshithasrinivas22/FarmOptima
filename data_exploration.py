@@ -1,9 +1,9 @@
 import pandas as pd
 import numpy as np
 
-# =========================
+
 # LOAD DATA
-# =========================
+
 
 crop_data = pd.read_csv("dataset/crop.csv")
 
@@ -19,18 +19,17 @@ crop_data = crop_data[crop_data['Crop'].isin(top_crops)]
 
 print("Cleaning done!")
 
-# =========================
+
 # FEATURE ENGINEERING
-# =========================
+
 
 # Create Yield Feature
 crop_data['Yield'] = crop_data['Production'] / (crop_data['Area'] + 1)
 
 print("Yield feature created!")
 
-# =========================
 # FEATURE SELECTION
-# =========================
+
 
 X = crop_data[
     [
