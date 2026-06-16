@@ -13,7 +13,7 @@ st.set_page_config(
     initial_sidebar_state="collapsed"
 )
 
-display_navbar()
+#display_navbar()
 
 st.markdown("""
 <style>
