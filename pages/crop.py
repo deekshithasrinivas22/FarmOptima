@@ -7,7 +7,7 @@ from nav import display_navbar
 from sklearn.preprocessing import LabelEncoder
 from sklearn.ensemble import RandomForestClassifier
 from nav import display_navbar
-
+st.write("Crop page loaded")
 st.set_page_config(
     page_title="FarmOptima - Smart Crop Recommendation",
     layout="wide",
