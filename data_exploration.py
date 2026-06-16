@@ -105,9 +105,12 @@ print("Preprocessing done!")
 from sklearn.ensemble import RandomForestClassifier
 
 model = RandomForestClassifier(
-    n_estimators=100,
-    max_depth=15,
-    random_state=42
+    n_estimators=800,
+    max_depth=30,
+    min_samples_split=2,
+    min_samples_leaf=1,
+    random_state=42,
+    n_jobs=-1
 )
 
 # PIPELINE
