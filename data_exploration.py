@@ -1,85 +1,239 @@
 import pandas as pd
+import numpy as np
 
-#  LOAD DATA
+# =========================
+# LOAD DATA
+# =========================
+
 crop_data = pd.read_csv("dataset/crop.csv")
 
-#CLEAN DATA
+# Remove missing values
 crop_data = crop_data.dropna()
 
-#FEATURE SELECTION
-X = crop_data[['State_Name', 'Season', 'Crop_Year', 'Area']]
+# Remove duplicate rows
+crop_data = crop_data.drop_duplicates()
+
+# Keep only top 5 crops
+top_crops = crop_data['Crop'].value_counts().head(5).index
+crop_data = crop_data[crop_data['Crop'].isin(top_crops)]
+
+print("Cleaning done!")
+
+# =========================
+# FEATURE ENGINEERING
+# =========================
+
+# Create Yield Feature
+crop_data['Yield'] = crop_data['Production'] / (crop_data['Area'] + 1)
+
+print("Yield feature created!")
+
+# =========================
+# FEATURE SELECTION
+# =========================
+
+X = crop_data[
+    [
+        'State_Name',
+        'District_Name',
+        'Season',
+        'Crop_Year',
+        'Area',
+        'Production',
+        'Yield'
+    ]
+]
+
 y = crop_data['Crop']
 
-#ENCODING
-from sklearn.preprocessing import LabelEncoder
+print("Features selected!")
 
-le_state = LabelEncoder()
-le_season = LabelEncoder()
-le_crop = LabelEncoder()
 
-X['State_Name'] = le_state.fit_transform(X['State_Name'])
-X['Season'] = le_season.fit_transform(X['Season'])
-y = le_crop.fit_transform(y)
+# TRAIN TEST SPLIT
 
-print("Encoding done!")
 
-#TRAIN TEST SPLIT
 from sklearn.model_selection import train_test_split
 
 X_train, X_test, y_train, y_test = train_test_split(
-    X, y, test_size=0.2, random_state=42
+    X,
+    y,
+    test_size=0.2,
+    random_state=42,
+    stratify=y
 )
 
 print("Split done!")
 
-#MODEL TRAINING
+#PROCESSING
+
+
+from sklearn.compose import ColumnTransformer
+from sklearn.preprocessing import OneHotEncoder
+from sklearn.preprocessing import StandardScaler
+
+categorical_features = [
+    'State_Name',
+    'District_Name',
+    'Season'
+]
+
+numerical_features = [
+    'Crop_Year',
+    'Area',
+    'Production',
+    'Yield'
+]
+
+preprocessor = ColumnTransformer(
+    transformers=[
+        (
+            'cat',
+            OneHotEncoder(handle_unknown='ignore'),
+            categorical_features
+        ),
+        (
+            'num',
+            StandardScaler(),
+            numerical_features
+        )
+    ]
+)
+
+print("Preprocessing done!")
+
+
+
 from sklearn.ensemble import RandomForestClassifier
 
-# Reduced trees → faster training
-model = RandomForestClassifier(n_estimators=10)
+model = RandomForestClassifier(
+    n_estimators=800,
+    max_depth=30,
+    min_samples_split=2,
+    min_samples_leaf=1,
+    random_state=42,
+    n_jobs=-1
+)
+
+# PIPELINE
+
+
+from sklearn.pipeline import Pipeline
+
+pipeline = Pipeline([
+    ('preprocessor', preprocessor),
+    ('model', model)
+])
+
+
+# TRAIN MODEL
+
 
 print("Training model...")
-model.fit(X_train, y_train)
+
+pipeline.fit(X_train, y_train)
 
 print("Model trained!")
 
-#PREDICTION
-y_pred = model.predict(X_test)
 
-#ACCURACY
-from sklearn.metrics import accuracy_score
+# PREDICTIONS
 
-accuracy = accuracy_score(y_test, y_pred)
 
-print("Accuracy:", accuracy)
+y_pred = pipeline.predict(X_test)
 
-#IRRIGATION MODEL
 
-crop_data['Irrigation'] = crop_data['Area'].apply(lambda x: 1 if x < 50 else 0)
+# EVALUATION METRICS
 
-# Features for irrigation
-X_irrigation = crop_data[['Crop_Year', 'Area']]
-y_irrigation = crop_data['Irrigation']
 
-# Split
-from sklearn.model_selection import train_test_split
-
-X_train_i, X_test_i, y_train_i, y_test_i = train_test_split(
-    X_irrigation, y_irrigation, test_size=0.2, random_state=42
+from sklearn.metrics import (
+    accuracy_score,
+    precision_score,
+    recall_score,
+    f1_score,
+    classification_report,
+    confusion_matrix,
+    mean_absolute_error,
+    mean_squared_error,
+    r2_score
 )
 
-# Train model
-from sklearn.linear_model import LogisticRegression
+from sklearn.preprocessing import LabelEncoder
 
-irrigation_model = LogisticRegression()
-irrigation_model.fit(X_train_i, y_train_i)
+# Classification Metrics
+accuracy = accuracy_score(y_test, y_pred)
 
-print("\nIrrigation model trained!")
+precision = precision_score(
+    y_test,
+    y_pred,
+    average='weighted'
+)
 
-# Predict
-y_pred_i = irrigation_model.predict(X_test_i)
+recall = recall_score(
+    y_test,
+    y_pred,
+    average='weighted'
+)
 
-# Accuracy
-from sklearn.metrics import accuracy_score
+f1 = f1_score(
+    y_test,
+    y_pred,
+    average='weighted'
+)
 
-print("Irrigation Accuracy:", accuracy_score(y_test_i, y_pred_i))
+# Training & Testing Accuracy
+train_score = pipeline.score(X_train, y_train)
+test_score = pipeline.score(X_test, y_test)
+
+# MAE, MSE, RMSE, R²
+
+
+label_encoder = LabelEncoder()
+
+y_test_encoded = label_encoder.fit_transform(y_test)
+y_pred_encoded = label_encoder.transform(y_pred)
+
+mae = mean_absolute_error(
+    y_test_encoded,
+    y_pred_encoded
+)
+
+mse = mean_squared_error(
+    y_test_encoded,
+    y_pred_encoded
+)
+
+rmse = np.sqrt(mse)
+
+r2 = r2_score(
+    y_test_encoded,
+    y_pred_encoded
+)
+
+
+# DISPLAY RESULTS
+
+print("\n" + "=" * 60)
+print("MODEL EVALUATION RESULTS")
+print("=" * 60)
+
+print(f"\nTraining Accuracy : {train_score * 100:.2f}%")
+print(f"Testing Accuracy  : {test_score * 100:.2f}%")
+
+print(f"\nAccuracy Score    : {accuracy * 100:.2f}%")
+print(f"Precision Score   : {precision * 100:.2f}%")
+print(f"Recall Score      : {recall * 100:.2f}%")
+print(f"F1 Score          : {f1 * 100:.2f}%")
+
+print(f"\nMAE               : {mae:.4f}")
+print(f"MSE               : {mse:.4f}")
+print(f"RMSE              : {rmse:.4f}")
+print(f"R² Score          : {r2:.4f}")
+
+print("\n" + "=" * 60)
+print("CLASSIFICATION REPORT")
+print("=" * 60)
+print(classification_report(y_test, y_pred))
+
+print("\n" + "=" * 60)
+print("CONFUSION MATRIX")
+print("=" * 60)
+print(confusion_matrix(y_test, y_pred))

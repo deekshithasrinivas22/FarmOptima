@@ -304,7 +304,7 @@ with col3:
     crop = st.selectbox("Crop", crops)
 
 with col4:
-    area = st.slider("Farm Area (acres)", 1, 500, 100)
+    area = st.slider("Farm Area (acres)", 1, 100, 10)
 
 temp, rain = weather(state, season)
 
@@ -332,11 +332,7 @@ with weather_col2:
 
 
 
-# PLACE THIS BELOW ALL YOUR IMPORTS AND AFTER YOU DEFINE temp, rain, crop etc.
 
-# REPLACE EVERYTHING FROM:
-# if st.button("💧 Check Irrigation", type="primary"):
-# UNTIL THE END OF THE FILE
 
 if st.button(
     "💧 Check Irrigation",

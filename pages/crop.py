@@ -354,7 +354,7 @@ with col3:
     year = st.selectbox("Year", list(range(2000, 2031)))
 
 with col4:
-    area = st.slider("Area (acres)", 1, 1000, 100)
+    area = st.slider("Area (acres)", 1, 100, 10)
 
 # weather display
 temp, rain = weather(state, season)
