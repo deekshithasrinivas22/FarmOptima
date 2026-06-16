@@ -321,8 +321,29 @@ def weather(state, season):
 # data
 @st.cache_resource
 def load_data():
-    crop = pd.read_csv("dataset/crop.csv").dropna()
 
+    import os
+
+    st.write("Starting load_data()...")
+
+    # Check dataset exists
+    if not os.path.exists("dataset/crop.csv"):
+        st.error("dataset/crop.csv not found!")
+        st.stop()
+
+    st.write("Dataset found")
+
+    # Load dataset
+    crop = pd.read_csv("dataset/crop.csv")
+
+    st.write(f"Dataset loaded: {crop.shape}")
+
+    # Remove missing values
+    crop = crop.dropna()
+
+    st.write("Missing values removed")
+
+    # Label Encoding
     le_state = LabelEncoder()
     le_season = LabelEncoder()
     le_crop = LabelEncoder()
@@ -331,11 +352,33 @@ def load_data():
     crop["Season"] = le_season.fit_transform(crop["Season"])
     crop["Crop"] = le_crop.fit_transform(crop["Crop"])
 
-    X = crop[["State_Name", "Season", "Crop_Year", "Area"]]
+    st.write("Encoding completed")
+
+    # Features
+    X = crop[
+        [
+            "State_Name",
+            "Season",
+            "Crop_Year",
+            "Area"
+        ]
+    ]
+
     y = crop["Crop"]
 
-    model = RandomForestClassifier(n_estimators=50, random_state=42)
+    st.write("Preparing model...")
+
+    # Smaller model for deployment
+    model = RandomForestClassifier(
+        n_estimators=10,
+        random_state=42
+    )
+
+    st.write("Training model...")
+
     model.fit(X, y)
+
+    st.write("Model trained successfully")
 
     return model, le_state, le_season, le_crop
 
